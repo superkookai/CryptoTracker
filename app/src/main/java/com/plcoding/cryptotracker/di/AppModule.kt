@@ -12,7 +12,10 @@ import org.koin.dsl.module
 
 val appModule = module {
     single { HttpClientFactory.create(CIO.create()) }
-    singleOf(::RemoteCoinDataSource).bind<CoinDataSource>() //single { RemoteCoinDataSource(get()) }
+
+    //single { RemoteCoinDataSource(get()) }
+    singleOf(::RemoteCoinDataSource).bind<CoinDataSource>()
+
     viewModelOf(::CoinListViewModel)
 }
 

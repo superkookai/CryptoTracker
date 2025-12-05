@@ -2,7 +2,6 @@ package com.plcoding.cryptotracker.crypto.presenatation.coin_list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.plcoding.cryptotracker.core.domain.util.NetworkError
 import com.plcoding.cryptotracker.core.domain.util.onError
 import com.plcoding.cryptotracker.core.domain.util.onSuccess
 import com.plcoding.cryptotracker.crypto.domain.CoinDataSource
@@ -12,7 +11,6 @@ import com.plcoding.cryptotracker.crypto.presenatation.models.toCoinUi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -99,7 +97,7 @@ class CoinListViewModel(
                 .onSuccess { coins ->
                     _state.update { it.copy(
                         isLoading = false,
-                        coins = coins.map { it.toCoinUi() }
+                        coins = coins.map { coin -> coin.toCoinUi() }
                     ) }
                 }
                 .onError { error ->

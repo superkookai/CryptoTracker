@@ -5,7 +5,7 @@ import com.plcoding.cryptotracker.core.domain.util.Result
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.call.body
 import io.ktor.client.statement.HttpResponse
-import java.net.NetPermission
+
 
 suspend inline fun <reified T> responseToResult(
     response: HttpResponse
@@ -14,7 +14,7 @@ suspend inline fun <reified T> responseToResult(
         in 200..299 -> {
             try {
                 Result.Success(response.body<T>())
-            } catch (e: NoTransformationFoundException) {
+            } catch (_: NoTransformationFoundException) {
                 Result.Error(NetworkError.SERIALIZATION)
             }
         }

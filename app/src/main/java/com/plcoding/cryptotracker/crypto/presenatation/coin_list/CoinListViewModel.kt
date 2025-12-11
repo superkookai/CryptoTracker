@@ -34,6 +34,9 @@ class CoinListViewModel(
     private val _events = Channel<CoinListEvent>()
     val events = _events.receiveAsFlow()
 
+    fun backToList() {
+        _state.update { it.copy(selectedCoin = null) }
+    }
 
     fun onAction(action: CoinListAction) {
         when(action) {

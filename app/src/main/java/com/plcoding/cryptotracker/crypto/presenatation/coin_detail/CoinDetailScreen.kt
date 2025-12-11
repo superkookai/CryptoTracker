@@ -17,6 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -40,10 +42,12 @@ import androidx.compose.ui.unit.sp
 import com.plcoding.cryptotracker.R
 import com.plcoding.cryptotracker.crypto.presenatation.coin_detail.components.InfoCard
 import com.plcoding.cryptotracker.crypto.presenatation.coin_list.CoinListState
+import com.plcoding.cryptotracker.crypto.presenatation.coin_list.CoinListViewModel
 import com.plcoding.cryptotracker.crypto.presenatation.coin_list.components.previewCoin
 import com.plcoding.cryptotracker.crypto.presenatation.models.toDisplayableNumber
 import com.plcoding.cryptotracker.ui.theme.CryptoTrackerTheme
 import com.plcoding.cryptotracker.ui.theme.greenBackground
+import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -56,6 +60,8 @@ fun CoinDetailScreen(
     } else {
         Color.Black
     }
+
+    val viewModel: CoinListViewModel = koinViewModel()
 
     if (state.isLoading) {
         Box(
@@ -73,6 +79,16 @@ fun CoinDetailScreen(
                 .padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            IconButton(
+                {viewModel.backToList() },
+                modifier = Modifier
+                    .align(Alignment.Start),
+            ) {
+                Icon(painter = painterResource(R.drawable.outline_arrow_circle_left_24),
+                    contentDescription = "back to list",
+                    modifier = Modifier.size(50.dp))
+            }
+
             Icon(
                 imageVector = ImageVector.vectorResource(coinUi.iconRes),
                 contentDescription = coinUi.name,
